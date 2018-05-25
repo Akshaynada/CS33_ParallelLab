@@ -304,6 +304,23 @@ void OMP_Deblur(double* u, const double* f, int maxIterations, double dt, double
             {
                 for(x = 1; x < xMax - 1; x++)
                 {
+                    int currIndex = Index(x, y, z);
+                    double oldVal = u[currIndex];
+                    double newVal = (u[currIndex] + dt * ( 
+                        u[currIndex - 1] * g[currIndex - 1] + 
+                        u[currIndex + 1] * g[currIndex + 1] + 
+                        u[currIndex - xMax] * g[currIndex - xMax] + 
+                        u[currIndex + xMax] * g[currIndex + xMax] + 
+                        u[currIndex - xMaxTyMax] * g[currIndex - xMaxTyMax] + 
+                        u[currIndex + xMaxTyMax] * g[currIndex + xMaxTyMax] - gamma * conv[currIndex])) /
+                        (1.0 + dt * (g[currIndex + 1] + g[currIndex - 1] + g[currIndex + xMax] + g[currIndex - xMax] + g[currIndex + xMaxTyMax] + g[currIndex - xMaxTyMax]));
+                    if(fabs(oldVal - newVal) < epsilon)
+                    {
+                        converged++;
+                    }
+                    u[currIndex] = newVal;
+
+                    /*
                     double oldVal = u[Index(x, y, z)];
                     double newVal = (u[Index(x, y, z)] + dt * ( 
                         u[Index(x - 1, y, z)] * g[Index(x - 1, y, z)] + 
@@ -318,6 +335,7 @@ void OMP_Deblur(double* u, const double* f, int maxIterations, double dt, double
                         converged++;
                     }
                     u[Index(x, y, z)] = newVal;
+                    */
                 }
             }
         }
