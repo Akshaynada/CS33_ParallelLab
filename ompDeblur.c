@@ -1,8 +1,8 @@
 //OpenMP version.  Edit and submit only this file.
 /* Enter your details below
- * Name :       Jordan Xian Yue Soon
- * UCLA ID:     004909667
- * Email id:    jordansoon@ucla.edu
+ * Name :
+ * UCLA ID:
+ * Email id:
  */
 
 #include <math.h>
